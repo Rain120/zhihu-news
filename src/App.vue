@@ -1,23 +1,27 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <m-header @showSidebar="show"></m-header>
+    <sidebar ref="sidebar"></sidebar>
     <router-view/>
   </div>
 </template>
 
 <script>
+import MHeader from 'components/m-header/m-header'
+import Sidebar from 'components/Sidebar/Sidebar'
+
 export default {
-  name: 'App'
+  methods: {
+    show () {
+      this.$refs.sidebar.open()
+    }
+  },
+  components: {
+    MHeader,
+    Sidebar
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
