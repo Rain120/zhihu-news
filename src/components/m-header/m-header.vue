@@ -1,6 +1,6 @@
 <template>
   <div class="header" ref="header">
-    <div class="model">
+    <div class="model" :class="model">
       <span class="navigation" @click="showSidebar"></span>
       <h2>{{title}}</h2>
     </div>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     title: {
@@ -18,8 +19,15 @@ export default {
   methods: {
     showSidebar () {
       this.$emit('showSidebar')
-      console.log('ShowsideBar')
     }
+  },
+  computed: {
+    model () {
+      return this.isNight ? 'night' : 'morning'
+    },
+    ...mapGetters([
+      'isNight'
+    ])
   }
 }
 </script>

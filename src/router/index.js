@@ -7,11 +7,24 @@ const HomePage = (resolve) => {
     })
 }
 
+const NewsPage = (resolve) => {
+    import('components/news-page/news-page').then((moudle) => {
+      resolve(moudle)
+    })
+}
+
 Vue.use(Router)
 
 export default new Router({
   routes: [{
     path: '/',
+    name: 'HomePage',
     component: HomePage
-  }]
+  },
+  {
+    path: '/news-page/:id',
+    name: 'newsPage',
+    component: NewsPage
+  }
+  ]
 })

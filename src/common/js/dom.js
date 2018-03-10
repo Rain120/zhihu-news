@@ -22,7 +22,7 @@ export function hasClass (el, className) {
   return reg.test(el.className)
 }
 
-export function attachImageUrl (url) {
+export function changeImageUrl (url) {
   if (url !== void 0) {
     let reg = /http\w{0,1}:\/\/p/g
     return url.replace(reg, 'https://images.weserv.nl/?url=p')

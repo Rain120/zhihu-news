@@ -1,23 +1,20 @@
 <template>
-  <div class="scorll" ref="wrapper">
+  <div class="scroll" ref="wrapper">
     <slot></slot>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
-
 export default {
   props: {
-    data: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
     probeType: {
       type: Number,
       default: 1
+    },
+    listenScroll: {
+      type: Boolean,
+      default: false
     },
     scrollX: {
       type: Boolean,
@@ -27,9 +24,11 @@ export default {
       type: Boolean,
       default: true
     },
-    listenScroll: {
-      type: Boolean,
-      default: false
+    data: {
+      type: Array,
+      default () {
+        return []
+      }
     },
     pullUp: {
       type: Boolean,
@@ -45,26 +44,24 @@ export default {
       this.initScroll()
     }, 20)
   },
+  watch: {
+    data () {
+      setTimeout(() => {
+        this.refresh()
+      }, 20)
+    }
+  },
   methods: {
     initScroll () {
-      if (this.$refs.wrapper) {
-        return
-      }
-
-      let options = {
-        scrollX: this.scrollX,
-        scrollY: this.scrollY,
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        probeType: this.probeType,
         click: true
-      }
-
-      this.scroll = new BScroll(this.$refs.wrapper, options)
-
+      })
       if (this.listenScroll) {
-        this.scroll.on('scroll', pos => {
+        this.scroll.on('scroll', (pos) => {
           this.$emit('scroll', pos)
         })
       }
-
       if (this.pullUp) {
         this.scroll.on('scrollEnd', () => {
           if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
@@ -80,6 +77,5 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-
+<style scoped lang="stylus" rel="stylesheet/stylus">
 </style>

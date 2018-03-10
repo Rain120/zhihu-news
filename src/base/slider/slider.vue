@@ -11,14 +11,8 @@
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
-import { addClass } from 'common/js/dom'
+import {addClass} from 'common/js/dom'
 export default {
-  data () {
-    return {
-      dots: [],
-      currentPageIndex: 0
-    }
-  },
   props: {
     loop: {
       type: Boolean,
@@ -33,150 +27,143 @@ export default {
       default: 4000
     }
   },
+  data () {
+    return {
+      dots: [],
+      currentPageIndex: 0
+    }
+  },
   mounted () {
-    // fps 60 浏览器通常刷新时间17ms
     setTimeout(() => {
       this._setSliderWidth()
+      this._initScroll()
       this._initDots()
-      this._initSlider()
       if (this.autoPlay) {
         this._play()
       }
     }, 20)
-    /**
-     * [description] 监听事件，当前页面大小更改后，页面重置大小
-     * @param  {[type]} 'resize' [description]
-     * @param  {[type]} (        [description]
-     * @return {[type]}          [description]
-     */
+  },
+  activated () {
+    this.slider.enable()
+    let index = this.slider.getCurrentPage().pageX
+    this.currentPageIndex = index
+    this.slider.goToPage(index, 0, 400)
+    if (this.autoPlay) {
+      this._play()
+    }
     window.addEventListener('resize', () => {
-      if (!this.slider) {
+      if (!this.slider || !this.slider.enabled) {
         return
       }
-      this._setSliderWidth(true)
-      this.slider.refresh()
+      this.resizeTimer = setTimeout(() => {
+        if (this.slider.isInTransition) {
+          this._changePageIndex()
+        } else {
+          if (this.autoPlay) {
+            this._play()
+          }
+        }
+        this.refreshSlider()
+      }, 60)
     })
   },
   methods: {
-    /**
-     * 设置slider的宽度
-     * @param {Boolean} isResize [description]
-     */
-    _setSliderWidth (isResize) {
+    refreshSlider () {
+      this._setSliderWidth(true)
+      this.slider.refresh()
+    },
+    _setSliderWidth (resize) {
       this.children = this.$refs.sliderGroup.children
       let width = 0
       let sliderWidth = this.$refs.slider.clientWidth
       for (let i = 0; i < this.children.length; i++) {
-        let child = this.children[i]
-        addClass(child, 'slider-item')
-        child.style.width = sliderWidth + 'px'
+        let children = this.children[i]
+        addClass(children, 'slider-item')
         width += sliderWidth
+        children.style.width = `${sliderWidth}px`
+        children.style.height = `${sliderWidth * 0.5}px`
       }
-      if (this.loop && !isResize) {
+      if (this.loop && !resize) {
         width += 2 * sliderWidth
       }
-      this.$refs.sliderGroup.style.width = width + 'px'
+      this.$refs.sliderGroup.style.width = `${width}px`
     },
-    /**
-     * [_initDots description] 初始化Dots，初始化他会创建length+2个div使得正常轮播
-     * @return {[type]} [description]
-     */
-    _initDots () {
-      this.dots = new Array(this.children.length)
-    },
-    /**
-     * [_initSlider description] 初始化slider
-     * @return {[type]} [description]
-     */
-    _initSlider () {
+    _initScroll () {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
         momentum: false,
-        snap: true,
-        snapLoop: this.loop,
-        snapThreshold: 0.3,
-        snapSpeed: 400
-      })
-      /**
-       * [description] 绑定on事件，火器营当前页面
-       * @param  {[type]} 'scrollEnd' [轮播结束]
-       * @param  {[type]} (           [description]
-       * @return {[type]}             [description]
-       */
-      this.slider.on('scrollEnd', () => {
-        let pageIndex = this.slider.getCurrentPage().pageX
-        if (this.loop) {
-          pageIndex -= 1
-        }
-        this.currentPageIndex = pageIndex
-        if (this.autoPlay) {
-          clearTimeout(this.timer)
-          this._play()
+        snap: {
+          loop: this.loop,
+          threshold: 0.3,
+          speed: 400
         }
       })
+      this.slider.on('scrollEnd', this._changePageIndex)
     },
-    /**
-     * [_play description] 自动播放，跳轉到下一張圖片
-     * @return {[type]} [description]
-     */
-    _play () {
-      let pageIndex = this.currentPageIndex + 1
-      if (this.loop) {
-        pageIndex += 1
+    _initDots () {
+      this.dots = new Array(this.children.length - 2)
+      // console.log(this.dots)
+    },
+    _changePageIndex () {
+      this.currentPageIndex = this.slider.getCurrentPage().pageX
+      if (this.autoPlay) {
+        this._play()
       }
-      this.timer = setTimeout(() => {
-        this.slider.goToPage(pageIndex, 0, 400)
-      }, this.interval)
+    },
+    _play () {
+      clearTimeout(this.timer)
+      if (this.autoPlay) {
+        this.timer = setTimeout(() => {
+          this.slider.next()
+        }, this.interval)
+      }
     }
   },
-  /**
-   * [destroyed description]  清除當前時間戳
-   * @return {[type]} [description]
-   */
+  deactivated () {
+    this.slider.disable()
+    clearTimeout(this.timer)
+  },
   destroyed () {
+    this.slider.disable()
     clearTimeout(this.timer)
   }
 }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
-  .slider
-    min-height: 1px
-    .slider-group
-      position: relative
-      overflow: hidden
-      white-space: nowrap
-      .slider-item
-        float: left
-        box-sizing: border-box
-        overflow: hidden
-        text-align: center
-        a
-          display: block
-          width: 100%
-          overflow: hidden
-          text-decoration: none
-        img
-          display: block
-          width: 100%
-    .dots
-      position: absolute
-      right: 0
-      left: 0
-      bottom: 12px
-      text-align: center
-      font-size: 0
-      .dot
-        display: inline-block
-        margin: 0 4px
-        width: 8px
-        height: 8px
-        border-radius: 50%
-        background: rgba(255, 255, 255, .5)
-        &.active
-          width: 20px
-          border-radius: 5px
-          background: rgba(255, 255, 255, .8)
+ .slider
+  width 100%
+  height 100%
+  .slider-group
+    position relative
+    overflow hidden
+    white-space nowrap
+    .slider-item
+      float left
+      box-sizing border-box
+      text-align center
+      overflow hidden
+      img
+        display block
+        width 100%
+        height 100%
+  .dots
+    position: absolute
+    right: 0
+    left: 0
+    bottom: 12px
+    text-align: center
+    font-size: 0
+    .dot
+      display: inline-block
+      margin: 0 4px
+      width: 8px
+      height: 8px
+      border-radius: 50%
+      background: rgba(255, 255, 255, .5)
+      &.active
+        width: 20px
+        border-radius: 5px
+        background: rgba(255, 255, 255, .8)
 </style>
