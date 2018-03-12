@@ -2,7 +2,7 @@
  * @Author: Rainy
  * @Date: 2018-03-01 18:23:53
  * @Last Modified by: Rainy
- * @Last Modified time: 2018-03-10 21:02:22
+ * @Last Modified time: 2018-03-11 12:04:08
  */
 import axios from 'axios'
 
@@ -31,6 +31,12 @@ export function getMoreNews (homepageDateStr) {
 
 export function getNewsContent (id) {
   return axios('api/news/' + id).then(res => {
+    return Promise.resolve(res)
+  })
+}
+
+export function getTheme (id) {
+  return axios('api/theme/' + id).then(res => {
     return Promise.resolve(res)
   })
 }

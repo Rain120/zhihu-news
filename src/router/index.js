@@ -13,18 +13,40 @@ const NewsPage = (resolve) => {
     })
 }
 
+const ThemePage = (resolve) => {
+  import('components/theme-page/theme-page').then((moudle) => {
+    resolve(moudle)
+  })
+}
+
+const EditorsList = (resolve) => {
+  import('components/editors-list/editors-list').then((moudle) => {
+    resolve(moudle)
+  })
+}
 Vue.use(Router)
 
 export default new Router({
-  routes: [{
-    path: '/',
-    name: 'HomePage',
-    component: HomePage
-  },
-  {
-    path: '/news-page/:id',
-    name: 'newsPage',
-    component: NewsPage
-  }
+  routes: [
+    {
+      path: '/',
+      name: 'homePage',
+      component: HomePage
+    },
+    {
+      path: '/news-page/:id',
+      name: 'newsPage',
+      component: NewsPage
+    },
+    {
+      path: '/theme-page/:id',
+      name: 'themePage',
+      component: ThemePage
+    },
+    {
+      path: '/editorsList/:id',
+      name: 'editorsList',
+      component: EditorsList
+    }
   ]
 })

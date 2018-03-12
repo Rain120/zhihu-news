@@ -33,7 +33,7 @@ import Scroll from 'base/scroll/scroll'
 import Backtop from 'base/back-top/back-top'
 // import HomePageDetail from 'components/home-page-detail/home-page-detail'
 import { getSlider, getNews, getMoreNews } from 'api/news'
-import { changeImageUrl } from 'common/js/dom'
+import { changeImageUrl } from 'common/js/changeImageUrl'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   data () {
@@ -125,12 +125,17 @@ export default {
       }
     },
     goNews (id) {
-      console.log('goNews')
+      // console.log('goNews')
       this.setGoType({
         id: id,
         type: 1
       })
-      this.$router.push({name: 'newsPage', params: {id: id}})
+      this.$router.push({
+        name: 'newsPage',
+        params: {
+          id: id
+        }
+      })
     },
     show () {
       this.$refs.sidebar.open()
@@ -199,10 +204,11 @@ export default {
             display flex
             position relative
             padding 20px 0 20px 10px
-            &.morning
-              border-1px(rgba(7,17,27,0.1))
-            &.night
-              border-1px(rgb(43,43,43))
+            box-shadow  10px 10px 20px rgba(7, 17, 27, .1)
+            // &.morning
+            //   border-1px(rgba(7,17,27,0.1))
+            // &.night
+            //   border-1px(rgb(43,43,43))
             .title
               flex 1
               margin-right 10px

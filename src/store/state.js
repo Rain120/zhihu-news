@@ -2,7 +2,7 @@
  * @Author: Rainy
  * @Date: 2018-03-01 21:10:38
  * @Last Modified by: Rainy
- * @Last Modified time: 2018-03-01 21:21:57
+ * @Last Modified time: 2018-03-12 17:50:32
  */
 export default {
   currentThemeId: -1, // 当前主题id
@@ -23,7 +23,7 @@ export default {
   short_comments: '', // 当前新闻短评数
   goType: 1, // 去往详情页上一个路由页面类型
   isNight: false, // 是否为夜间模式
-  currentTheme: '', // 当前主题数组
+  currentTheme: [], // 当前主题数组
   themeids: [], // 当前主题新闻数组id
   editor: '', // 当前主编信息
   homepageDate: 0, // 首页当前日期

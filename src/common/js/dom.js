@@ -21,10 +21,3 @@ export function hasClass (el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
-
-export function changeImageUrl (url) {
-  if (url !== void 0) {
-    let reg = /http\w{0,1}:\/\/p/g
-    return url.replace(reg, 'https://images.weserv.nl/?url=p')
-  }
-}

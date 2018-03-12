@@ -25,3 +25,19 @@ export function setGoType ({ commit, state }, { id, type }) {
   commit(types.ADD_NEW_ID, id)
   commit(types.CHANGE_GO_TYPES, type)
 }
+
+export function addTheme ({ commit }, payload) {
+  commit(types.ADD_THEME, payload)
+}
+
+export function addThemeIds ({commit}, ids) {
+  commit(types.ADD_THEME_NEWID, ids)
+}
+
+export function addEditorId ({commit}, payload) {
+  commit(types.ADD_EDITOR_ID, payload)
+}
+
+export function addAllNews ({commit}, stories) {
+  commit(types.ADD_ALL_NEWS, stories)
+}
