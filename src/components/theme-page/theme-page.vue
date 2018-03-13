@@ -8,12 +8,12 @@
         <div class="avatar" v-for="(editor, index) in editorsLimit" :key="index">
           <img :src="changeImageUrl(editor.avatar)" width="25" height="25">
         </div>
-        <i class="arrow_right"><img src="../../common/image/arrow_right.png" width="15" height="15"></i>
+        <img src="../../common/image/arrow_right.png" width="15" height="15" />
       </div>
     </div>
     <div class="theme-news-list">
       <ul>
-        <li class="new border-1px" v-for="(story, index) in data.stories" :key="index">
+        <li class="new border-1px" @click="goNews(story.id)" v-for="(story, index) in data.stories" :key="index">
           <span class="title">{{ story.title }}</span>
           <span class="avatar"  v-for="(image, index) in story.images" :key="index" v-if="index < 1">
             <img v-lazy="changeImageUrl(image)" />
@@ -52,9 +52,8 @@ export default {
       if (this.currentThemeId !== -1) {
         getTheme(this.currentThemeId).then(response => {
           this.data = response.data
-          this.data.editors.map(item => {
-            this.editors.push(item)
-          })
+          // console.log(this.data)
+          this.editors = this.data.editors
           this.editorsLimit = this.editors
           if (this.editorsLimit.length > 7) {
             this.editorsLimit.splice(8, this.editorsLimit.length)
@@ -67,9 +66,9 @@ export default {
       }
     },
     goNews (id) {
-      this.id = id
+      this.currentId = id
       this.$router.push({
-        name: 'newsContent',
+        name: 'newsPage',
         params: {
           id: id
         }
@@ -83,7 +82,7 @@ export default {
     show () {
       this.$refs.sidebar.open()
     },
-    showEditorsList (id) {
+    showEditorsList () {
       this.$router.push({
         name: 'editorsList',
         params: {
@@ -114,7 +113,7 @@ export default {
       .editors
         position relative
         top 40px
-        width 92%
+        width 100%
         height 40px
         line-height 40px
         border-1px(rgba(7, 17, 27, 0.1))
@@ -134,7 +133,7 @@ export default {
       position relative
       top 40px
       width 100%
-      height 100%
+      height 120%
       &.morning
         color rgb(51,51,51)
         background-color rgb(255,255,255)

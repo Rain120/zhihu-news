@@ -24,6 +24,13 @@ const EditorsList = (resolve) => {
     resolve(moudle)
   })
 }
+
+const EditorProfile = (resolve) => {
+  import('components/editor-profile/editor-profile').then((moudle) => {
+    resolve(moudle)
+  })
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +54,11 @@ export default new Router({
       path: '/editorsList/:id',
       name: 'editorsList',
       component: EditorsList
+    },
+    {
+      path: '/editor-profile/:id/:name',
+      name: 'editorProfile',
+      component: EditorProfile
     }
   ]
 })

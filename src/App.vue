@@ -2,7 +2,9 @@
   <div id="app">
     <m-header @showSidebar="show"></m-header>
     <sidebar ref="sidebar"></sidebar>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 

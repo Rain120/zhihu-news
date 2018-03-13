@@ -2,7 +2,7 @@
  * @Author: Rainy
  * @Date: 2018-03-01 18:23:53
  * @Last Modified by: Rainy
- * @Last Modified time: 2018-03-11 12:04:08
+ * @Last Modified time: 2018-03-13 17:52:16
  */
 import axios from 'axios'
 
@@ -37,6 +37,24 @@ export function getNewsContent (id) {
 
 export function getTheme (id) {
   return axios('api/theme/' + id).then(res => {
+    return Promise.resolve(res)
+  })
+}
+
+export function getEditorProfile (id) {
+  return axios('api/editor/' + id + '/profile-page/ios').then(res => {
+    return Promise.resolve(res)
+  })
+}
+
+export function getNewsExtraData (id) {
+  return axios('api/story-extra/' + id).then(res => {
+    return Promise.resolve(res)
+  })
+}
+
+export function getLatestNews () {
+  return axios('api/news/latest').then(res => {
     return Promise.resolve(res)
   })
 }

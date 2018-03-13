@@ -2,7 +2,7 @@
  * @Author: Rainy
  * @Date: 2018-03-01 21:09:44
  * @Last Modified by: Rainy
- * @Last Modified time: 2018-03-10 11:29:35
+ * @Last Modified time: 2018-03-13 18:57:11
  */
 import Vue from 'vue'
 import Vuex from 'vuex'

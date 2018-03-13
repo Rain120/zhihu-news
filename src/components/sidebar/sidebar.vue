@@ -99,9 +99,9 @@ export default {
             id: id
           }
         })
-        console.log('id', id)
+        // console.log('id', id)
       }
-      console.log('activeTheme', this.activeTheme)
+      // console.log('activeTheme', this.activeTheme)
     },
     selectedTheme (id) {
       if (this.activeTheme === id) {

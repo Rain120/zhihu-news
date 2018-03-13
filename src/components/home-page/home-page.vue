@@ -31,7 +31,6 @@
 import Slider from 'base/slider/slider'
 import Scroll from 'base/scroll/scroll'
 import Backtop from 'base/back-top/back-top'
-// import HomePageDetail from 'components/home-page-detail/home-page-detail'
 import { getSlider, getNews, getMoreNews } from 'api/news'
 import { changeImageUrl } from 'common/js/changeImageUrl'
 import { mapGetters, mapMutations, mapActions } from 'vuex'

@@ -41,3 +41,7 @@ export function addEditorId ({commit}, payload) {
 export function addAllNews ({commit}, stories) {
   commit(types.ADD_ALL_NEWS, stories)
 }
+
+export function changeStoryExtra ({ commit }, extra) {
+  commit(types.STORY_EXTRA, extra)
+}

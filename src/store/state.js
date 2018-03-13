@@ -14,7 +14,7 @@ export default {
   nextId: '', // 下一篇新闻id
   themenextId: '', // 主题内容下一篇新闻id
   new: [], // 当前新闻详情页内容
-  popularity: '', // 当前新闻点赞数
+  popularity: 0, // 当前新闻点赞数
   isCollect: false, // 当前收藏状态
   isCollectIds: [], // 收藏新闻id数组
   isCollectNews: [], // 收藏新闻数组

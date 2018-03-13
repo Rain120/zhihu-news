@@ -2,7 +2,7 @@
   <div class="header" ref="header">
     <div class="model" :class="model">
       <span class="navigation" @click="showSidebar"></span>
-      <h2>{{title}}</h2>
+      <h2>{{ title }}</h2>
     </div>
   </div>
 </template>
